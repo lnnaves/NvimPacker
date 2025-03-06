@@ -102,6 +102,8 @@ set.wildmenu = true
 set.wrap = true
 
 ---------------------------------
+vim.opt.guicursor = "n-v-c:hor20,i-ci-ve:ver25,r-cr:hor20,o:hor50"
+---------------------------------
 -- Formatação
 ---------------------------------
 local diagnostics = require("null-ls").builtins.diagnostics
@@ -193,13 +195,7 @@ cmp.setup.cmdline(":", {
 -- Servidores de lingugem
 ---------------------------------
 local lspconfig = require("lspconfig")
-local caps = vim.lsp.protocol.make_client_capabilities()
-local no_format = function(client, bufnr)
-  client.resolved_capabilities.document_formatting = false
-end
-
--- Capabilities
-caps.textDocument.completion.completionItem.snippetSupport = true
+local caps = vim.lsp.protocol.make_client_capabilities() local no_format = function(client, bufnr) client.resolved_capabilities.document_formatting = false end -- Capabilities caps.textDocument.completion.completionItem.snippetSupport = true
 
 -- Python
 lspconfig.pylsp.setup {
@@ -212,7 +208,7 @@ settings = {
         autopep8 = { enabled = true },
         yapf = { enabled = false },
         -- linter options
-        pylint = { enabled = true, executable = "pylint" },
+        pylint = { enabled = false, executable = "pylint" },
         pyflakes = { enabled = false },
         pycodestyle = { enabled = false },
         -- type checker
@@ -229,6 +225,7 @@ flags = {
 },
 capabilities = capabilities,
 }
+
 
 -- Rust
 lspconfig.rust_analyzer.setup({
@@ -329,5 +326,29 @@ vim.cmd([[ autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, 
 -- vim.g.substrata_italic_variables = true
 -- vim.cmd [[colorscheme substrata]]
 
-vim.cmd [[colorscheme rosebones]]
+-- vim.cmd [[colorscheme rosebones]]
+vim.cmd("colorscheme kanagawa-paper")
+
+require('kanagawa-paper').setup({
+  undercurl = true,
+  transparent = true,
+  gutter = false,
+  dimInactive = true, -- disabled when transparent
+  terminalColors = true,
+  commentStyle = { italic = true },
+  functionStyle = { italic = false },
+  keywordStyle = { italic = false, bold = false },
+  statementStyle = { italic = false, bold = false },
+  typeStyle = { italic = false },
+  colors = { theme = {}, palette = {} }, -- override default palette and theme colors
+  overrides = function(colors)  -- override highlight groups
+    local theme = colors.theme 
+    return {
+      NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 }
+    }
+  end,
+})
+
+-- setup must be called before loading
+vim.cmd("colorscheme kanagawa-paper")
 
