@@ -90,6 +90,8 @@ return packer.startup(function(use)
     --	 vim.cmd 'colorscheme monochrome'end}
     use{'kvrohit/substrata.nvim'}
 
+    use {'thesimonho/kanagawa-paper.nvim'}
+
     -- Lua
 
     use { 
